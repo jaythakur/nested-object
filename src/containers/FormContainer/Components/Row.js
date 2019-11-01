@@ -4,6 +4,12 @@ import Element from './Element';
 import SubSection from './SubSection';
 
 class Row extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            obj: this.props.rowInfo.fields
+        }
+    }
 
     updateDataHandler = (objectKey, updatedObject) => {
         updatedObject.ids = objectKey;
@@ -14,10 +20,8 @@ class Row extends React.Component {
         const clonedFields = this.props.rowInfo.fields;
         let html;
         if(clonedFields.hasOwnProperty('formData')) {
-            console.log(clonedFields)
             html = <SubSection
-                        subSectionInfo={clonedFields}
-                        backToParent={this.props.backToParent} />
+                        subSectionInfo={clonedFields} />
         } else {
             const fieldArray = [];
             for (let key in clonedFields) {
@@ -28,10 +32,9 @@ class Row extends React.Component {
             }
             html = (<div id={this.props.rowInfo.id} className={this.props.rowInfo.classes.join(' ')}>
                 {fieldArray.map( fieldInfo => (
-                                            <Element 
+                                            <Element
                                                 key={fieldInfo.id} 
-                                                elementInfo={fieldInfo.config}
-                                                backToParent={(e, updatedObject) => this.updateDataHandler(fieldInfo.id, updatedObject)} />
+                                                elementInfo={fieldInfo.config} />
                                         ))}
             </div>)
         }

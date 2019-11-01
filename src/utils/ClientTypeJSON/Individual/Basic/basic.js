@@ -13,8 +13,9 @@ export default {
     id: 'basic',
     classes: ['section'],
     subSections: {
-        // basicInformation: basicInformationJson,
-        clientAddress: clientAddressJson,
+        basicInformation: basicInformationJson,
+        taxAffiliation: taxAffiliationJson
+        /*clientAddress: clientAddressJson,
         /*taxAffiliation: taxAffiliationJson,*/
         /*clientEmailAddress: clientEmailAddressJson,
         eDelivery: eDeliveryJson,

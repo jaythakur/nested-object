@@ -40,7 +40,7 @@ export default {
             id: 'row2',
             classes: ['row'],
             fields: {
-                firstName: {
+                firstName: { 
                     elementType: 'input',
                     classes: [],
                     elementConfig: {
@@ -88,6 +88,7 @@ export default {
                 lastName: {
                     elementType: 'input',
                     classes: [],
+                    id: 'lastName',
                     elementConfig: {
                         type: 'text',
                         name: 'lastName',
@@ -113,6 +114,7 @@ export default {
                 suffix: {
                     elementType: 'select',
                     classes: [],
+                    id: 'suffix',
                     elementConfig: {
                         type: 'text',
                         name: 'suffix',
@@ -142,6 +144,7 @@ export default {
                 clientOrgination: {
                     elementType: 'select',
                     classes: [],
+                    id: 'clientOrgination',
                     elementConfig: {
                         type: 'text',
                         name: 'clientOrgination',
@@ -168,6 +171,7 @@ export default {
                 referral: {
                     elementType: 'select',
                     classes: ['hide'],
+                    id: 'referral',
                     elementConfig: {
                         type: 'text',
                         name: 'referral',
@@ -193,6 +197,7 @@ export default {
                 campaign: {
                     elementType: 'input',
                     classes: ['hide'],
+                    id: 'campaign',
                     elementConfig: {
                         type: 'text',
                         name: 'campaign',
@@ -210,7 +215,8 @@ export default {
                 },
                 prospecting: {
                     elementType: 'select',
-                    classes: ['hide'],
+                    classes: [],
+                    id: 'prospecting',
                     elementConfig: {
                         type: 'text',
                         name: 'prospecting',

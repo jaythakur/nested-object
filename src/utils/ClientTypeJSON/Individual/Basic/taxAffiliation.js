@@ -12,6 +12,7 @@ export default {
                 usCitizen: {
                     elementType: 'radio',
                     classes: [],
+                    id: 'usCitizen',
                     elementConfig: {
                         type: 'radio',
                         name: 'usCitizen',
@@ -39,6 +40,7 @@ export default {
                 residentAlien: {
                     elementType: 'radio',
                     classes: [],
+                    id: 'residentAlien',
                     elementConfig: {
                         type: 'radio',
                         name: 'residentAlien',
@@ -66,6 +68,7 @@ export default {
                 countryOfCitizenship: {
                     elementType: 'select',
                     classes: [],
+                    id: 'countryOfCitizenship',
                     elementConfig: {
                         name: 'countryOfCitizenship',
                         id: 'countryOfCitizenship',
@@ -95,6 +98,7 @@ export default {
                 countryOfBirth: {
                     elementType: 'select',
                     classes: [],
+                    id: 'countryOfBirth',
                     elementConfig: {
                         name: 'countryOfBirth',
                         id: 'countryOfBirth',
@@ -116,6 +120,7 @@ export default {
                 language: {
                     elementType: 'select',
                     classes: [],
+                    id: 'language',
                     elementConfig: {
                         name: 'language',
                         id: 'language',
@@ -136,7 +141,7 @@ export default {
                 }
             }
         },
-        row5: {
+        /*row5: {
             id: 'row5',
             classes: ['row'],
             fields: {
@@ -257,6 +262,6 @@ export default {
                     tooltipText: ''
                 }
             }
-        }
+        }*/
     }
 }

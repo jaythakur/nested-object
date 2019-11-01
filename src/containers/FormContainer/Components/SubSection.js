@@ -4,10 +4,6 @@ import Row from './Row';
 
 class SubSection extends React.Component {
 
-    updateDataHandler = (updatedObject) => {
-        this.props.backToParent(updatedObject);
-    }
-   
     render() {
         const formDataArray = [];
         for (let key in this.props.subSectionInfo.formData) {
@@ -22,8 +18,7 @@ class SubSection extends React.Component {
                 {formDataArray.map( formDataElement => (
                     <Row 
                         key={formDataElement.id} 
-                        rowInfo={formDataElement.config}
-                        backToParent={this.updateDataHandler} />
+                        rowInfo={formDataElement.config} />
                 ))}
             </div>
         )

@@ -7,7 +7,7 @@ export default {
             title: 'Individual',
             sections: {
                 basic: basicJson,
-                finance: finanaceJson
+                /*finance: finanaceJson*/
             }
         }
     }

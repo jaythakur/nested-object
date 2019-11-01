@@ -9,8 +9,8 @@ const input = ( props ) => {
     let tooltip =  null;
     let helpText = null;
     const inputClasses = ['InputElement'];
-
-    if (props.invalid && props.shouldValidate && props.touched) {
+    // console.log('Invalid-'+props.invalid)
+    if (props.invalid) {
         inputClasses.push('Invalid');
         validationError = <p className='ValidationError'>{props.errorMessage}</p>;
     }

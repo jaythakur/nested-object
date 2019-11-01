@@ -24,7 +24,7 @@ class Section extends React.Component {
                     <SubSection 
                         key={subSectionElement.id} 
                         subSectionInfo={subSectionElement.config}
-                        backToParent={this.updateDataHandler} />
+                        backToParent={this.updateDataHandler} {...this.props}/>
                 ))}
             </div>
         )
