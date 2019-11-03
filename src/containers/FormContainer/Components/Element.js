@@ -42,51 +42,26 @@ class Element extends React.Component {
     }
 
     inputChangedHandlerNew = (event, key) => {
-        console.log('key-'+key+' value '+event.target.value);
-        console.log(this.props.elementInfo);
         const obj = {};
         obj.value = event.target.value;
         obj.valid = this.checkValidity(event.target.value, this.props.elementInfo.validation);
-        console.log(obj.valid);
-        this.props.onChangePerson(key, obj);
-    }
-
-    inputChangedHandler = (event, id) => {
-        const obj = {...this.state[id]};
-        obj.value = event.target.value;
-        if(id === 'prefix') {
-            var firstName = {...this.state.firstName}
-            firstName.value = event.target.value;
-            this.setState({firstName})
-        }
-        /*this.setState({
-            [id]: obj
-        })*/
-        /*const elementInfo = {...this.props.elementInfo};
-        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-        elementInfo.value = value;
-        elementInfo.valid = this.checkValidity(elementInfo.value, elementInfo.validation);
-        elementInfo.touched = true;
-        const updatedObj = {
-            updateElement: elementInfo,
-            ids: ''
-        }
-        this.props.backToParent('', updatedObj);*/
+        this.props.onChangePerson(key, obj, this.props.node, this.props.index);
     }
    
     render() {
         const elementInfo = this.props.elementInfo;
-        const valid = this.props.fields[elementInfo.id].valid !== undefined ? this.props.fields[elementInfo.id].valid : elementInfo.valid;
-        console.log('Element-'+valid+'--'+this.props.fields[elementInfo.id].valid);
+        console.log(elementInfo.id)
+        const value = this.props.fields[this.props.node][this.props.index][elementInfo.id].value;
+       
         return (
             <div className={"col-md-4 " + elementInfo.classes.join(' ')}>
                             <Input
                                 elementType={elementInfo.elementType}
                                 elementConfig={elementInfo.elementConfig}
-                                value={this.props.fields[elementInfo.id].value}
+                                value={value}
                                 label={elementInfo.label}
-                                invalid={!valid}
-                                shouldValidate={elementInfo.validation}
+                                invalid=""
+                                shouldValidate=""
                                 touched={elementInfo.touched}
                                 errorMessage="This field is required"
                                 tooltipText={elementInfo.tooltipText}
@@ -105,7 +80,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onChangePerson: (key, value) => dispatch(actions.updateField(key, value))
+        onChangePerson: (key, value, node, index) => dispatch(actions.updateField(key, value, node, index))
     }
 };
 

@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/actions';
 
 import Element from './Element';
-import SubSection from './SubSection';
+import RecursiveFields from './RecursiveFields';
 
 class Row extends React.Component {
     constructor(props) {
@@ -19,9 +21,13 @@ class Row extends React.Component {
     render() {
         const clonedFields = this.props.rowInfo.fields;
         let html;
-        if(clonedFields.hasOwnProperty('formData')) {
-            html = <SubSection
-                        subSectionInfo={clonedFields} />
+        if(Array.isArray(clonedFields)) {
+            html = clonedFields.map( (rowInfo, index) => 
+                <div className={rowInfo.classes.join(' ')} id={rowInfo.id} key={index}>
+                    <RecursiveFields fieldObjects={rowInfo.fields} />
+                </div>
+            )
+            
         } else {
             const fieldArray = [];
             for (let key in clonedFields) {
@@ -34,7 +40,9 @@ class Row extends React.Component {
                 {fieldArray.map( fieldInfo => (
                                             <Element
                                                 key={fieldInfo.id} 
-                                                elementInfo={fieldInfo.config} />
+                                                elementInfo={fieldInfo.config} 
+                                                node={this.props.id}
+                                                index={this.props.index} />
                                         ))}
             </div>)
         }
@@ -48,4 +56,16 @@ class Row extends React.Component {
     }
 }
 
-export default Row;
+const mapStateToProps = state => {
+    return {
+        fields: state.fields
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onChangePerson: (key, value) => dispatch(actions.updateField(key, value))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Row);
