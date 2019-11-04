@@ -5,7 +5,6 @@ export default {
     clientTypes: {
         individual: {
             title: 'Individual',
-            id: 'individual',
             sections: {
                 basic: basicJson,
                 /*finance: finanaceJson*/

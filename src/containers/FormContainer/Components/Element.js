@@ -6,13 +6,16 @@ import * as actions from '../../../store/actions/actions';
 
 class Element extends React.Component {
 
-    checkValidity = (value, rules) => {
+    checkValidity = (value, element, formJsonObj) => {
+        const rules = element.validation;
         let isValid = true;
+        let errorMessage = null;
+
         if (!rules) {
             return true;
         }
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
+        if (rules.isRequired) {
+            isValid = value.trim() !== '' ? true : false;
         }
 
         if (rules.minLength) {
@@ -38,34 +41,109 @@ class Element extends React.Component {
             isValid = pattern.test(value) && isValid
         }
 
-        return isValid;
+        return {
+            valid: isValid,
+            errorMessage: 'This field is required'
+        }
+    }
+
+    rules = (key, value) => {
+        const stateArray = [];
+        if (key === 'prefix' && value.trim() !== '') {
+            if (value === 'option1') {
+                const obj = {};
+                obj.key = 'firstName';
+                obj.attributes = {
+                    value: '',
+                    required: false,
+                    valid: true
+                }
+
+                stateArray.push(obj);
+            } else if (value === 'option2') {
+                const obj = {};
+                obj.key = 'firstName';
+                obj.attributes = {
+                    value: '',
+                    required: true,
+                    valid: true
+                }
+
+                stateArray.push(obj);
+            }
+        }
+
+        return stateArray;
+    }
+
+    checkAllowedCharacter = (element, value) => {
+        if (element.allowedOnly) {
+            const pattern = element.allowedOnly;
+            if (value.trim() !== '' || pattern.test(value)) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        return true;
     }
 
     inputChangedHandlerNew = (event, key) => {
-        const obj = {};
-        obj.value = event.target.value;
-        obj.valid = this.checkValidity(event.target.value, this.props.elementInfo.validation);
-        this.props.onChangePerson(key, obj, this.props.node, this.props.index);
+        const stateArray = [];
+        const allowedOnly = this.checkAllowedCharacter(this.props.elementInfo, event.target.value);
+        if (!allowedOnly) return false;
+        const obj = {
+            key: key,
+            attributes: {
+                value: event.target.value
+            }
+        }
+
+        const newObj = {...obj.attributes, ...this.checkValidity(event.target.value, this.props.fields[key], this.props.elementInfo)}
+        obj.attributes = newObj;
+        stateArray.push(obj);
+        const newArray = this.rules(key, event.target.value);
+        const combineArray = newArray.length > 0 ? stateArray.concat(newArray) : stateArray;
+        this.props.onChangePerson(combineArray);
+        this.props.onUpdateSection(this.props.subSectionId, key, obj.attributes.valid);
     }
    
     render() {
+        const ID = this.props.id;
         const elementInfo = this.props.elementInfo;
-        console.log(elementInfo.id)
-        const value = this.props.fields[this.props.node][this.props.index][elementInfo.id].value;
-       
+        const valid = this.props.fields[ID].valid;
+        const isRequired = this.props.fields[ID].required;
+        const fieldConfig = {...elementInfo.elementConfig, ...this.props.fields[ID].config}
+        const fieldValue = this.props.fields[ID].value;
+        let jsonClasses = elementInfo.classes;
+        const stateClasses = this.props.fields[ID].classes === undefined ? [] : this.props.fields[ID].classes;
+        let combineClasses = [...jsonClasses, ...stateClasses];
+        combineClasses = [...new Set(combineClasses)];
+        const fieldShowClassIndex = combineClasses.indexOf('show');
+        if (fieldShowClassIndex !== -1) {
+            const findHideClassIndex = combineClasses.indexOf('hide');
+            if (findHideClassIndex !== -1) {
+                combineClasses.splice(findHideClassIndex, 1);
+            }
+        }
+        combineClasses = combineClasses.length > 0 ? combineClasses.classes.join(' ') : '';
+        const errorMessage = this.props.fields[ID].errorMessage;
+        // const value = this.props.individual[this.props.node][this.props.index][ID].value;
+
         return (
-            <div className={"col-md-4 " + elementInfo.classes.join(' ')}>
+            <div className={"col-md-4 "+combineClasses }>
                             <Input
                                 elementType={elementInfo.elementType}
-                                elementConfig={elementInfo.elementConfig}
-                                value={value}
+                                elementConfig={fieldConfig}
+                                value={fieldValue}
                                 label={elementInfo.label}
-                                invalid=""
-                                shouldValidate=""
+                                invalid={!valid}
+                                shouldValidate={isRequired}
                                 touched={elementInfo.touched}
-                                errorMessage="This field is required"
+                                errorMessage={errorMessage}
                                 tooltipText={elementInfo.tooltipText}
-                                changed={(event) => this.inputChangedHandlerNew(event, elementInfo.id)} />
+                                changed={(event) => this.inputChangedHandlerNew(event, ID)} />
                         </div>
         )
     }
@@ -74,13 +152,14 @@ class Element extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        fields: state.fields
+        fields: state.individual
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onChangePerson: (key, value, node, index) => dispatch(actions.updateField(key, value, node, index))
+        onChangePerson: (combineArray) => dispatch(actions.updateField(combineArray)),
+        onUpdateSection: (sectionId, key, status) => dispatch(actions.updateSection(sectionId, key, status))
     }
 };
 

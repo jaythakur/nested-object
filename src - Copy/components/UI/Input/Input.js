@@ -14,7 +14,7 @@ const input = ( props ) => {
         validationError = <p className='ValidationError'>{props.errorMessage}</p>;
     }
 
-    if (props.shouldValidate) {
+    if (Object.keys(props.shouldValidate).length > 0 && props.shouldValidate.required) {
         required = <span className="required">*</span>
     }
     
@@ -52,8 +52,6 @@ const input = ( props ) => {
             inputElement = (
                 <select
                     className={inputClasses.join(' ')}
-                    name={props.elementConfig.name}
-                    id={props.elementConfig.id}
                     value={props.value}
                     onChange={props.changed}>
                     {props.elementConfig.options.map(option => (

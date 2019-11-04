@@ -11,52 +11,18 @@ class SubSection extends React.Component {
     }
 
     render() {
-        const formDataArray = [];
-        for (let key in this.props.subSectionInfo.formData) {
-            formDataArray.push({
-                id: key,
-                config: this.props.subSectionInfo.formData[key]
-            });
-        }
+        // console.log(Object.values(this.props.fields[this.props.subSectionInfo.id]));
         return (
             <div id={this.props.subSectionInfo.id} className={this.props.subSectionInfo.classes.join(' ')}>
                 <h5>{this.props.subSectionInfo.title}</h5>
-                {formDataArray.map( (formDataElement, index) => {
-                    if (Array.isArray(formDataElement.config.fields)) {
-                        const fieldsArray = formDataElement.config.fields;
-                        const stateFieldsArray = this.props.fields[formDataElement.config.id];
-                        const nodeKey = formDataElement.config.id;
-                        return (
-                            <React.Fragment key={index}>
-                                {stateFieldsArray.map( (rowInfo, index) => {
-                                    return (
-                                        <React.Fragment key={index}>
-                                        <div
-                                            className="dynaminSection">
-                                                {Object.entries(fieldsArray[0]).map((rowInfo, i) => {
-                                                    return (
-                                                        <Row key={i}
-                                                            rowInfo={rowInfo[1]} id={nodeKey} index={index}/>
-                                                )
-                                                })}
-                                            </div>
-                                            {stateFieldsArray.length - index === 1 ? <button 
-                                                type="button" 
-                                                className="btn btn-primary"
-                                                onClick={() => this.addNewSection(index, nodeKey)}>
-                                                Add Section
-                                            </button> : null }
-                                            </React.Fragment>
-                                    )
-                                })}
-                        
-                        </React.Fragment>
-                        )
+                {Object.entries(this.props.subSectionInfo.formData).map( (formDataElement, index) => {
+                    if (Array.isArray(formDataElement[1].fields)) {
                     } else {
                         return (
                                 <Row 
-                                    key={formDataElement.id} 
-                                    rowInfo={formDataElement.config} />                        )
+                                    key={formDataElement[0]} 
+                                    subSectionId={this.props.subSectionId}
+                                    rowInfo={formDataElement[1]} />                        )
                     }
                 })}
             </div>
@@ -66,7 +32,7 @@ class SubSection extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        fields: state.fields
+        fields: state.individual
     };
 };
 

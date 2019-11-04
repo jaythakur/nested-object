@@ -19,7 +19,7 @@ class Row extends React.Component {
     }
    
     render() {
-        const clonedFields = this.props.rowInfo.fields;
+        const clonedFields = this.props.rowInfo.individual;
         let html;
         if(Array.isArray(clonedFields)) {
             html = clonedFields.map( (rowInfo, index) => 
@@ -29,13 +29,18 @@ class Row extends React.Component {
             )
             
         } else {
+            const fieldArray = [];
+            for (let key in clonedFields) {
+                fieldArray.push({
+                    id: key,
+                    config: clonedFields[key]
+                });
+            }
             html = (<div id={this.props.rowInfo.id} className={this.props.rowInfo.classes.join(' ')}>
-                {Object.entries(clonedFields).map( fieldInfo => (
+                {fieldArray.map( fieldInfo => (
                                             <Element
-                                                key={fieldInfo[0]} 
-                                                elementInfo={fieldInfo[1]}
-                                                id={fieldInfo[0]} 
-                                                subSectionId={this.props.subSectionId}
+                                                key={fieldInfo.id} 
+                                                elementInfo={fieldInfo.config} 
                                                 node={this.props.id}
                                                 index={this.props.index} />
                                         ))}

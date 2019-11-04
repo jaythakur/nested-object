@@ -1,35 +1,36 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/actions'
 
 import './formContainer.scss';
 import cobFormObject from '../../utils/form';
 import Section from './Components/Section';
 
 class FormContainer extends React.Component {
-    
-    constructor(props) {
-        super(props);
+
+    componentWillMount() {
+        this.props.setInitialState(cobFormObject.clientTypes.individual)
     }
 
     render() {
-        const sectionsArray = [];
         const clonedFormObj = cobFormObject.clientTypes.individual;
-        for (let key in clonedFormObj.sections) {
-            sectionsArray.push({
-                id: key,
-                config: clonedFormObj.sections[key]
-            });
-        }
         return (
-            <div>
+            <React.Fragment>
                 <h1>{clonedFormObj.title}</h1>
-                {sectionsArray.map( sectionElement => (
+                {Object.entries(clonedFormObj.sections).map( sectionElement => (
                     <Section 
-                        key={sectionElement.id} 
-                        sectionInfo={sectionElement.config} />
+                        key={sectionElement[0]} 
+                        sectionInfo={sectionElement[1]} />
                 ))}
-            </div>
+            </React.Fragment>
         )
     }
 }
 
-export default FormContainer;
+const mapDispatchToProps = dispatch => {
+    return {
+        setInitialState: (obj) => dispatch(actions.setInitialState(obj))
+    }
+};
+
+export default connect(null, mapDispatchToProps)(FormContainer);

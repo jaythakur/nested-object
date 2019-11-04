@@ -1,23 +1,8 @@
-export const updateField = (key, obj, node, index) => {
-    if (node === 'address') {
-        return {
-            type: 'UPDATE_ADDRESS',
-            payload: {
-                key: key,
-                value: obj,
-                node: node,
-                index: index
-            }
-        }
-    } else {
+export const updateField = (combineArray) => {
     return {
         type: 'UPDATE_FIELD',
-        payload: {
-            key: key,
-            value: obj
-        }
+        payload: combineArray
     }
-}
 }
 
 export const addNewSection = (nodeKey, index) => {
@@ -30,3 +15,31 @@ export const addNewSection = (nodeKey, index) => {
     }
 }
 
+export const updateSection = (sectionId, key, status) => {
+    return {
+        type: 'UPDATE_SECTION_STATUS',
+        payload: {
+            sectionId: sectionId,
+            key: key,
+            status: status
+        }
+    }
+}
+
+export const setInitialState = (obj) => {
+    let intialState = {};
+    Object.entries(obj.sections).forEach( section => {
+        Object.entries(section[1].subSections).forEach( subSection => {
+            Object.entries(subSection[1].formData).forEach( row => {
+                Object.entries(row[1].fields).forEach( field => {
+                    intialState[field[0]] =  field[1]
+                })
+            })
+        })
+    });
+    console.log('here');
+    return {
+        type: 'SET_INITIAL_STATE',
+        payload: intialState
+    }
+}

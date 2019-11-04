@@ -10,20 +10,12 @@ export default {
             classes: ['row'],
             fields: {
                 prefix: {
-                    label: 'Prefix',
-                    id: 'basicInformation_prefix',
-                    tooltipText: '',
-                    classes: [],
                     elementType: 'select',
-                    value: '',
-                    valid: true,
-                    required: true,
-                    validation: {
-                        isRequired: true
-                    },
+                    classes: [],
                     elementConfig: {
-                        name: 'basicInformation_prefix',
-                        id: 'basicInformation_prefix',
+                        name: 'prefix',
+                        id: 'prefix',
+                        placeholder: 'Prefix',
                         options: [
                             { value: '', displayValue: 'Please Select' },
                             { value: 'option1', displayValue: 'Option 1' },
@@ -31,7 +23,16 @@ export default {
                             { value: 'option3', displayValue: 'Option 3' },
                             { value: 'option4', displayValue: 'Option 4' }
                         ]
-                    }
+                    },
+                    validation: {
+                        required: true
+                    },
+                    label: 'Prefix',
+                    id: 'prefix',
+                    value: '',
+                    valid: true,
+                    touched: false,
+                    tooltipText: ''
                 }
             }
         },
@@ -39,49 +40,48 @@ export default {
             id: 'row2',
             classes: ['row'],
             fields: {
-                firstName: {
-                    label: 'First Name',
-                    id: 'basicInformation_firstName',
-                    tooltipText: '',
-                    classes: [],
+                firstName: { 
                     elementType: 'input',
-                    value: '',
-                    valid: true,
-                    required: true,
-                    validation: {
-                        isRequired: true
-                    },
+                    classes: [],
                     elementConfig: {
                         type: 'text',
-                        name: 'basicInformation_firstName',
-                        id: 'basicInformation_firstName',
+                        name: 'firstName',
+                        id: 'firstName',
                         placeholder: 'Enter First Name',
                         maxLength: 20
-                    }
-                },
-                lastName: {
-                    label: 'Last Name',
-                    id: 'basicInformation_lastName',
-                    tooltipText: '',
-                    classes: [],
-                    elementType: 'input',
+                    },
+                    validation: {
+                        required: true,
+                        pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+                    },
+                    label: 'First Name',
+                    id: 'firstName',
                     value: '',
                     valid: true,
-                    required: true,
-                    validation: {
-                        isRequired: true
-                    },
+                    touched: false,
+                    tooltipText: ''
+                },
+                middleName: {
+                    elementType: 'input',
+                    classes: [],
                     elementConfig: {
                         type: 'text',
-                        name: 'basicInformation_lastName',
-                        id: 'basicInformation_lastName',
-                        placeholder: 'Enter Last Name',
+                        name: 'middleName',
+                        id: 'middleName',
+                        placeholder: 'Enter Middle Name',
                         maxLength: 20
-                    }
+                    },
+                    validation: {},
+                    label: 'Middle Name',
+                    id: 'middleName',
+                    value: '',
+                    valid: true,
+                    touched: false,
+                    tooltipText: ''
                 }
             }
         },
-        /*row3: {
+        row3: {
             id: 'row3',
             classes: ['row'],
             fields: {
@@ -96,7 +96,13 @@ export default {
                         placeholder: 'Enter Last Name',
                         maxLength: 20
                     },
+                    validation: {
+                        required: true
+                    },
                     label: 'Last Name',
+                    value: '',
+                    valid: true,
+                    touched: false,
                     tooltipText: ''
                 }
             }
@@ -234,6 +240,6 @@ export default {
                     tooltipText: ''
                 },
             }
-        } */
+        }
     }
 }
