@@ -17,6 +17,12 @@ export default {
                             addressType: {
                                 elementType: 'select',
                                 classes: [],
+                                value: '',
+                                valid: true,
+                                required: true,
+                                validation: {
+                                    isRequired: true
+                                },
                                 elementConfig: {
                                     name: 'addressType',
                                     id: 'addressType',
@@ -32,18 +38,24 @@ export default {
                                 id: 'addressType',
                                 tooltipText: ''
                             },
-                            line1: { 
+                            line2: { 
                                 elementType: 'input',
-                                classes: [],
+                                classes: [],                                
+                                value: '',
+                                valid: true,
+                                required: true,
+                                validation: {
+                                    isRequired: true
+                                },
                                 elementConfig: {
                                     type: 'text',
-                                    name: 'line1',
-                                    id: 'line1',
-                                    placeholder: 'Enter Line1',
+                                    name: 'line2',
+                                    id: 'line2',
+                                    placeholder: 'Enter Line 2',
                                     maxLength: 20
                                 },
-                                label: 'Line1',
-                                id: 'line1',
+                                label: 'Line2',
+                                id: 'line2',
                                 tooltipText: ''
                             }
                         }
@@ -54,7 +66,13 @@ export default {
                         fields: {
                             line1: { 
                                 elementType: 'input',
-                                classes: [],
+                                classes: [],                                
+                                value: '',
+                                valid: true,
+                                required: true,
+                                validation: {
+                                    isRequired: true
+                                },
                                 elementConfig: {
                                     type: 'text',
                                     name: 'line2',

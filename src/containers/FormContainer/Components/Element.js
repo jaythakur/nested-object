@@ -99,26 +99,62 @@ class Element extends React.Component {
                 value: event.target.value
             }
         }
-
-        const newObj = {...obj.attributes, ...this.checkValidity(event.target.value, this.props.fields[key], this.props.elementInfo)}
-        obj.attributes = newObj;
-        stateArray.push(obj);
-        const newArray = this.rules(key, event.target.value);
-        const combineArray = newArray.length > 0 ? stateArray.concat(newArray) : stateArray;
-        this.props.onChangePerson(combineArray);
-        this.props.onUpdateSection(this.props.subSectionId, key, obj.attributes.valid);
+        let newObj;
+        if (this.props.nodeKey !== '' && this.props.nodeIndex !== '') {
+            newObj = {...obj.attributes, ...this.checkValidity(event.target.value, this.props.fields[this.props.nodeKey][this.props.nodeIndex][key], this.props.elementInfo)};
+            obj.attributes = newObj;
+            stateArray.push(obj);
+            this.props.onChangePerson(stateArray, this.props.nodeKey, this.props.nodeIndex);
+            // this.props.onUpdateSection(this.props.subSectionId, key, obj.attributes.valid);
+        } else {
+            newObj = {...obj.attributes, ...this.checkValidity(event.target.value, this.props.fields[key], this.props.elementInfo)};
+            obj.attributes = newObj;
+            stateArray.push(obj);
+            const newArray = this.rules(key, event.target.value);
+            const combineArray = newArray.length > 0 ? stateArray.concat(newArray) : stateArray;
+            this.props.onChangePerson(combineArray, '', '');
+            this.props.onUpdateSection(this.props.subSectionId, key, obj.attributes.valid);
+        }
+        
     }
    
     render() {
-        const ID = this.props.id;
-        const elementInfo = this.props.elementInfo;
-        const valid = this.props.fields[ID].valid;
-        const isRequired = this.props.fields[ID].required;
-        const fieldConfig = {...elementInfo.elementConfig, ...this.props.fields[ID].config}
-        const fieldValue = this.props.fields[ID].value;
+        let valid;
+        let isRequired;
+        let fieldConfig;
+        let fieldValue;
+        let errorMessage;
+        let combineClasses;
+        let ID = this.props.id;
+        let elementInfo = this.props.elementInfo;
+        if (this.props.nodeKey !== '' && this.props.nodeIndex !== '') {
+            const nodeKey = this.props.nodeKey;
+            const nodeIndex = this.props.nodeIndex;
+            valid = this.props.fields[nodeKey][nodeIndex][ID].valid;
+            isRequired = this.props.fields[nodeKey][nodeIndex][ID].required;
+            fieldConfig = {...elementInfo.elementConfig, ...this.props.fields[nodeKey][nodeIndex][ID].config}
+            fieldValue = this.props.fields[nodeKey][nodeIndex][ID].value;
+            let jsonClasses = elementInfo.classes;
+            const stateClasses = this.props.fields[nodeKey][nodeIndex][ID].classes === undefined ? [] : this.props.fields[nodeKey][nodeIndex][ID].classes;
+            combineClasses = [...jsonClasses, ...stateClasses];
+            combineClasses = [...new Set(combineClasses)];
+            const fieldShowClassIndex = combineClasses.indexOf('show');
+            if (fieldShowClassIndex !== -1) {
+                const findHideClassIndex = combineClasses.indexOf('hide');
+                if (findHideClassIndex !== -1) {
+                    combineClasses.splice(findHideClassIndex, 1);
+                }
+            }
+            combineClasses = combineClasses.length > 0 ? combineClasses.classes.join(' ') : '';
+            errorMessage = this.props.fields[nodeKey][nodeIndex][ID].errorMessage; 
+        } else {
+        valid = this.props.fields[ID].valid;
+        isRequired = this.props.fields[ID].required;
+        fieldConfig = {...elementInfo.elementConfig, ...this.props.fields[ID].config}
+        fieldValue = this.props.fields[ID].value;
         let jsonClasses = elementInfo.classes;
         const stateClasses = this.props.fields[ID].classes === undefined ? [] : this.props.fields[ID].classes;
-        let combineClasses = [...jsonClasses, ...stateClasses];
+        combineClasses = [...jsonClasses, ...stateClasses];
         combineClasses = [...new Set(combineClasses)];
         const fieldShowClassIndex = combineClasses.indexOf('show');
         if (fieldShowClassIndex !== -1) {
@@ -128,8 +164,11 @@ class Element extends React.Component {
             }
         }
         combineClasses = combineClasses.length > 0 ? combineClasses.classes.join(' ') : '';
-        const errorMessage = this.props.fields[ID].errorMessage;
+        errorMessage = this.props.fields[ID].errorMessage;
+        }
+        
         // const value = this.props.individual[this.props.node][this.props.index][ID].value;
+    
 
         return (
             <div className={"col-md-4 "+combineClasses }>
@@ -158,7 +197,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onChangePerson: (combineArray) => dispatch(actions.updateField(combineArray)),
+        onChangePerson: (combineArray, nodeKey, nodeIndex) => dispatch(actions.updateField(combineArray, nodeKey, nodeIndex)),
         onUpdateSection: (sectionId, key, status) => dispatch(actions.updateSection(sectionId, key, status))
     }
 };

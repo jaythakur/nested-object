@@ -21,14 +21,6 @@ class Row extends React.Component {
     render() {
         const clonedFields = this.props.rowInfo.fields;
         let html;
-        if(Array.isArray(clonedFields)) {
-            html = clonedFields.map( (rowInfo, index) => 
-                <div className={rowInfo.classes.join(' ')} id={rowInfo.id} key={index}>
-                    <RecursiveFields fieldObjects={rowInfo.individual} />
-                </div>
-            )
-            
-        } else {
             html = (<div id={this.props.rowInfo.id} className={this.props.rowInfo.classes.join(' ')}>
                 {Object.entries(clonedFields).map( fieldInfo => (
                                             <Element
@@ -36,11 +28,11 @@ class Row extends React.Component {
                                                 elementInfo={fieldInfo[1]}
                                                 id={fieldInfo[0]} 
                                                 subSectionId={this.props.subSectionId}
-                                                node={this.props.id}
-                                                index={this.props.index} />
+                                                nodeKey={this.props.nodeKey}
+                                                nodeIndex={this.props.nodeIndex} />
                                         ))}
             </div>)
-        }
+        
         
 
         return (

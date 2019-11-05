@@ -14,8 +14,8 @@ export default {
     classes: ['section'],
     subSections: {
         basicInformation: basicInformationJson,
-        taxAffiliation: taxAffiliationJson
-        /*clientAddress: clientAddressJson,
+        taxAffiliation: taxAffiliationJson,
+        clientAddress: clientAddressJson,
         /*taxAffiliation: taxAffiliationJson,*/
         /*clientEmailAddress: clientEmailAddressJson,
         eDelivery: eDeliveryJson,
