@@ -1,7 +1,4 @@
 export const updateField = (combineArray, nodeKey, nodeIndex) => {
-    console.log(combineArray);
-    console.log(nodeKey);
-    console.log(nodeIndex)
     if (nodeKey !== '' && nodeIndex !== '') {
         return {
             type: 'UPDATE_ARRAY_FIELD',

@@ -1,17 +1,22 @@
 import React from 'react';
 
-import './App.scss';
-import ClientOnBoarding from './containers/ClientOnBoarding/clientOnBoarding';
+import Basic from './Components/Basic';
+import './App.css';
 
 class App extends React.Component {
   
-
   render() {
+    console.log('[App.js] render')
     return (
-      <main role="main" className="container">
-        <ClientOnBoarding />
-      </main>
-    )
+      <div className="App">
+        <div className="col-md-4">
+
+        </div>
+        <div className="col-md-8">
+          <Basic />
+        </div>
+      </div>
+    );
   }  
 }
 

@@ -21,6 +21,15 @@
   color: #09d3ac;
 }
 
-.hide {
-  display: none;
+.form-group {
+  text-align: left;
+}
+
+.required {
+  color: red;
+  font-weight: bold;
+}
+
+.error {
+  color: red;
 }
